@@ -37,16 +37,16 @@ Uma edição customizada do **[Feather Wiki](https://feather.wiki) v1.9.1 (Goldf
 | ![Modal da galeria](assets/media/meida3.png) | ![Preview da capa](assets/media/meida4.png) | ![Card inserido no editor](assets/media/meida5.png) |
 
 ### 5. Controle de Tamanho da Fonte no Modo de Visualização
-- Widget **`A-` | `100%` | `A+`** integrado ao cabeçalho fixo de leitura (visível também no modo publicado).
-- Ajusta a escala apenas do conteúdo do artigo (`.uc`) entre `70%` e `180%`, preservando o layout da interface e salvando a preferência automaticamente no `localStorage`.
+- Widget **`A-` | `18px` | `A+`** integrado ao cabeçalho fixo de leitura (visível também no modo publicado).
+- Ajusta o tamanho da fonte apenas do conteúdo do artigo (`.uc`) em passos de `2px` (padrão `18px`), preservando o layout da interface e salvando a preferência automaticamente no `localStorage`.
 
 ![Widget de controle de fonte](assets/media/meida14.png)
 
-![Leitura com fonte em 150%](assets/media/meida13.png)
+![Leitura com fonte ampliada](assets/media/meida13.png)
 
-### 6. Tabelas Markdown (GFM) & Renderização de Conteúdo
+### 6. Tabelas Markdown (GFM), Lightbox & Renderização de Conteúdo
 - Parser Markdown interno estendido para suportar **tabelas GFM** (`| col | col |`, alinhamento de colunas e formatação interna), com wrapper responsivo (`overflow-x: auto`), bordas completas e destaque de linhas.
-- Imagens em artigos centralizadas automaticamente.
+- Imagens em artigos centralizadas automaticamente e com **Lightbox em tela cheia** ao clicar (com legenda baseada no `alt` e fechamento por botão, clique fora ou `Esc`).
 
 ![Tabelas estilizadas no modo de visualização](assets/media/meida11.png)
 
@@ -63,34 +63,41 @@ Uma edição customizada do **[Feather Wiki](https://feather.wiki) v1.9.1 (Goldf
 
 ```text
 .
-├── gnosepedia_feather_wiki_1.9.1_Goldfinch.html   # Arquivo HTML base vazio (Bones)
+├── Feather Wiki — Whimsigoth.html               # Versão normal/modular (Bones — usa app/style.css e app/app.js)
+├── Feather Wiki — Whimsigoth Single File.html   # Versão minificada em arquivo único (CSS, JS e tiles em Base64)
 ├── app/
-│   ├── app.js                                     # Motor JS customizado (Muscles)
-│   └── style.css                                  # Tema Whimsigoth (Plumage)
+│   ├── app.js                                   # Motor JS customizado (Muscles)
+│   └── style.css                                # Tema Whimsigoth (Plumage)
 ├── assets/
-│   ├── main.png                                   # Imagem de capa do README
-│   └── media/                                     # Imagens e capturas de tela
+│   ├── 208.png                                  # Tile de fundo principal
+│   ├── space_blue_nebula.jpg                    # Tile de fundo da sidebar
+│   ├── main.png                                 # Imagem de capa do README
+│   └── media/                                   # Imagens e capturas de tela
 ├── scripts/
-│   ├── split_grimore.py                           # Utilitário para dividir arquivos .md por seções ##
-│   └── import_to_wiki.py                          # Utilitário para importar pastas .md para o JSON da wiki
-└── uploads/                                       # Pasta auxiliar para arquivos de entrada/importação
+│   ├── build_single_file.py                     # Gera a versão Single File minificada a partir da versão normal
+│   ├── split_grimore.py                         # Utilitário para dividir arquivos .md por seções ##
+│   └── import_to_wiki.py                        # Utilitário para importar pastas .md para o JSON da wiki
+└── LICENSE
 ```
 
 ---
 
 ## Como Usar
 
+### Versão Normal (Modular)
 1. **Clonar ou baixar o repositório.**
-2. **Renomear** (opcional) `gnosepedia_feather_wiki_1.9.1_Goldfinch.html` para `index.html`.
-3. **Abrir no navegador** (diretamente ou via servidor local, ex.: `python3 -m http.server`).
-4. **Editar e salvar:** clique em **Save** no sidebar para baixar o arquivo HTML atualizado com suas páginas (mantendo o carregamento externo de `app/style.css` e `app/app.js`).
+2. **Abrir** `Feather Wiki — Whimsigoth.html` no navegador (diretamente ou via servidor local, ex.: `python3 -m http.server`). Opcionalmente renomeie para `index.html`.
+3. **Editar e salvar:** clique em **Save** no sidebar para baixar o arquivo HTML atualizado com suas páginas (mantendo o carregamento externo de `app/style.css` e `app/app.js`).
 
-> **Nota sobre os tiles de fundo:** o arquivo `app/style.css` referencia `../assets/208.png` (fundo principal) e `../assets/space_blue_nebula.jpg` (sidebar). Certifique-se de incluir esses arquivos (ou substituir pelos tiles de sua preferência) na pasta `assets/`.
+### Versão Minificada (Single File)
+1. Baixe apenas o arquivo `Feather Wiki — Whimsigoth Single File.html`.
+2. Abra direto no navegador — ele é totalmente autossuficiente (HTML e CSS minificados, `app.js` embutido e tiles de fundo convertidos em Base64).
 
 ---
 
 ## Scripts Auxiliares (`scripts/`)
 
+- **`scripts/build_single_file.py`**: gera `Feather Wiki — Whimsigoth Single File.html` embutindo `app/style.css` (minificado + assets locais em Base64) e `app/app.js` dentro do HTML base.
 - **`scripts/split_grimore.py`**: divide arquivos Markdown extensos em pastas por arquivo e subarquivos por seção `##`, sem modificar os originais.
 - **`scripts/import_to_wiki.py`**: importa uma hierarquia de pastas e arquivos `.md` direto para o bloco `<script id="p" type="application/json">` do HTML da wiki, criando páginas-pai para cada pasta e subpáginas para cada arquivo Markdown.
 
